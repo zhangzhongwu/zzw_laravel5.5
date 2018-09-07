@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Models\User;
+
 class UserTableSeeder extends Seeder
 {
     /**
@@ -11,10 +13,15 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-        	'name' => str_random(10),
-        	'email' => str_random(10) . '@163.com',
-        	'password' => bcrypt('secret'),
-        ])
+        $users = factory(User::class)->times(50)->make();
+
+        User::insert($users->makeVisible(['password', 'remember_token'])->toArray());
+
+        $user = User::find(1);
+        $user->name = 'zzw';
+        $user->email = '1326056159@qq.com';
+        $user->is_admin = true;
+        $user->password = bcrypt('zzw123');
+        $user->save();
     }
 }
