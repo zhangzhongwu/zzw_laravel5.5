@@ -32,3 +32,6 @@ Route::get('pssword/reset/{token}', 'Auth\ResetPasswordController@showResetForm'
 //执行密码更新操作
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
+//微博
+Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+

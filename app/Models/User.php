@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
@@ -48,5 +48,19 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
+    }
+
+    //和微博表一对多关系
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
+
+    //当前用户发布过的所有微博
+    public function feed()
+    {
+        return $this->statuses()
+                    ->orderBy('created_at', 'desc');
     }
 }
